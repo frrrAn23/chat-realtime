@@ -6,9 +6,14 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "*", // Sesuaikan jika klien memiliki domain spesifik
+        origin: "*",
         methods: ["GET", "POST"]
     }
+});
+
+// Tambahkan rute untuk menangani permintaan ke "/"
+app.get("/", (req, res) => {
+    res.send("Welcome to the Realtime Chat Server");
 });
 
 io.on("connection", (socket) => {
@@ -24,9 +29,9 @@ io.on("connection", (socket) => {
     });
 });
 
-// Gunakan PORT dari environment variable
+// Railway menetapkan port di process.env.PORT
 const PORT = process.env.PORT || 3000;
 
 server.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-});
+})
