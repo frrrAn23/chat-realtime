@@ -1,12 +1,12 @@
 {
   "name": "realtime-chat",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Realtime chat application using Socket.io",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js"
   },
-  "keywords": [],
+  "keywords": ["chat", "socket.io", "realtime"],
   "author": "",
   "license": "ISC",
   "dependencies": {
