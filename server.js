@@ -1,37 +1,23 @@
-const express = require("express");
-const http = require("http");
-const { Server } = require("socket.io");
+const express = require('express');
+const http = require('http');
+const socketIo = require('socket.io');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server, {
-    cors: {
-        origin: "*",
-        methods: ["GET", "POST"]
-    }
+const io = socketIo(server);
+
+app.use(express.static('public'));  // Menyajikan file statis, termasuk index.html
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);  // Mengirim pesan ke semua klien
+  });
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
 });
 
-// Tambahkan rute untuk menangani permintaan ke "/"
-app.get("/", (req, res) => {
-    res.send("Welcome to the Realtime Chat Server");
+server.listen(process.env.PORT || 8080, () => {
+  console.log('Server is running on port 8080');
 });
-
-io.on("connection", (socket) => {
-    console.log("User connected");
-
-    socket.on("chat message", (msg) => {
-        console.log("Message: " + msg);
-        io.emit("chat message", msg);
-    });
-
-    socket.on("disconnect", () => {
-        console.log("User disconnected");
-    });
-});
-
-// Railway menetapkan port di process.env.PORT
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-})
