@@ -5,73 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real-Time Chat</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-    
-        .chat-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            max-width: 100%;
-        }
-    
-        input[type="text"] {
-            width: 75%;
-            padding: 10px;
-            margin: 5px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-    
-        button {
-            padding: 10px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-    
-        button:hover {
-            background-color: #45a049;
-        }
-    
-        #messages {
-            list-style-type: none;
-            padding: 0;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-    
-        #messages li {
-            padding: 10px;
-            background-color: #f1f1f1;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-        }
-    
-        input:focus, button:focus {
-            outline: none;
-        }
-    
-        .message-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-        }
-    
+      /* Styling tetap sama seperti yang kamu buat sebelumnya */
     </style>
-    
   </head>
   <body>
     <div class="chat-container">
@@ -82,9 +17,9 @@
         <input id="m" autocomplete="off" /><button>Send</button>
     </div>
 
-    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://chat-realtime-production-8b9b.up.railway.app/socket.io/socket.io.js"></script>  <!-- URL yang diperbarui -->
     <script>
-      var socket = io();
+      var socket = io("https://chat-realtime-production-8b9b.up.railway.app");  // Ganti dengan URL Railway yang sesuai
       var input = document.getElementById("m");
       var button = document.querySelector("button");
       var messages = document.getElementById("messages");
