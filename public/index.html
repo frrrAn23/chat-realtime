@@ -5,19 +5,196 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Real-Time Chat</title>
     <style>
-      /* Styling tetap sama seperti yang kamu buat sebelumnya */
+      /* Reset default styling */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f1f5f8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .chat-container {
+        background-color: #ffffff;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        width: 400px;
+        max-width: 90%;
+        height: 500px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      input[type="text"] {
+        padding: 12px;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: all 0.3s ease;
+      }
+
+      input[type="text"]:focus {
+        border-color: #4CAF50;
+        box-shadow: 0px 0px 5px rgba(76, 175, 80, 0.5);
+        animation: focusAnimation 0.3s ease-out;
+      }
+
+      button {
+        padding: 12px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049;
+        animation: buttonHover 0.3s ease-in-out;
+      }
+
+      #messages {
+        list-style-type: none;
+        padding: 0;
+        overflow-y: auto;
+        max-height: 300px;
+        margin-bottom: 20px;
+        flex-grow: 1;
+        animation: fadeInMessages 0.5s ease-out;
+      }
+
+      #messages li {
+        background-color: #f9f9f9;
+        margin: 10px 0;
+        padding: 10px;
+        border-radius: 10px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        animation: slideIn 0.5s forwards;
+        transition: background-color 0.3s ease;
+      }
+
+      #messages li:hover {
+        background-color: #f1f1f1;
+      }
+
+      .message-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        justify-content: flex-start;
+      }
+
+      .chat-header {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #4CAF50;
+        margin-bottom: 20px;
+        animation: fadeInHeader 0.5s ease-out;
+      }
+
+      input:focus, button:focus {
+        outline: none;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInHeader {
+        0% {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes focusAnimation {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.05);
+        }
+      }
+
+      @keyframes buttonHover {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(1.1);
+        }
+      }
+
+      @keyframes slideIn {
+        0% {
+          transform: translateY(20px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateY(0);
+          opacity: 1;
+        }
+      }
+
+      @keyframes fadeInMessages {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 1;
+        }
+      }
+
     </style>
   </head>
   <body>
     <div class="chat-container">
-        <input id="username" placeholder="Enter your name" autocomplete="off" /><br>
+      <div class="chat-header">
+        Real-Time Chat
+      </div>
+      <div class="input-container">
+        <input id="username" placeholder="Enter your name" autocomplete="off" />
         <div class="message-container">
-            <ul id="messages"></ul>
+          <ul id="messages"></ul>
         </div>
-        <input id="m" autocomplete="off" /><button>Send</button>
+        <input id="m" autocomplete="off" placeholder="Type a message..." />
+        <button>Send</button>
+      </div>
     </div>
 
-    <script src="https://chat-realtime-production-8b9b.up.railway.app/socket.io/socket.io.js"></script>  <!-- URL yang diperbarui -->
+    <script src="https://chat-realtime-production-8b9b.up.railway.app/socket.io/socket.io.js"></script>
     <script>
       var socket = io("https://chat-realtime-production-8b9b.up.railway.app");
       var input = document.getElementById("m");
@@ -37,7 +214,6 @@
         }
       };
 
-      // Menyimpan nama pengguna
       usernameInput.addEventListener("input", function () {
         username = usernameInput.value.trim() || "Anonymous";
       });
